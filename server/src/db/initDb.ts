@@ -2,7 +2,8 @@ import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
 
 async function initializeDb() {
-  const db = new sqlite3.Database('./expanses.db');
+  const dbPath = __dirname + '/expanses.db';
+  const db = new sqlite3.Database(dbPath);
   const exec = promisify(db.exec).bind(db);
 
   await exec('PRAGMA foreign_keys = ON;');

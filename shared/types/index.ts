@@ -2,14 +2,14 @@ export interface Trip {
   id: number;
   name: string;
   year: number;
-  location: string | null;
-  image: string | null;
+  location?: string;
+  image?: string;
 }
 
 export interface User {
   id: number;
   name: string;
-  image: string | null;
+  image?: string;
 }
 
 export interface Bill {
