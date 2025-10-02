@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Trip } from '@shared/index';
+import React, { JSX } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TripList from './pages/TripList/TripList';
+import TripPage from './pages/TripPage/TripPage';
 
-const App: React.FC = () => {
-  const [trips, setTrips] = useState<Trip[]>([]);
+const queryClient = new QueryClient();
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/trips')
-        .then(res => res.json())
-        .then((data: Trip[]) => setTrips(data));
-  }, []);
-
+const App:React.FC = () => {
   return (
-      <div>
-        <h1>Trips</h1>
-        <ul>
-          {trips.map((trip) => (
-              <li key={trip.id}>
-                {trip.name} ({trip.year})
-              </li>
-          ))}
-        </ul>
-      </div>
+      <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<TripList />} />
+          <Route path="trip/:id" element={<TripPage />} />
+        </Routes>
+      </Router>
+      </QueryClientProvider>
   );
 };
 
