@@ -1,5 +1,5 @@
 import db from '../db/sqlite';
-import { Trip } from '@shared/index';
+import {Trip, User} from '@shared/index';
 
 export const getAllTrips = (): Promise<Trip[]> => {
   return new Promise((resolve, reject) => {
@@ -11,12 +11,56 @@ export const getAllTrips = (): Promise<Trip[]> => {
 };
 
 export const getTripById = (id: string): Promise<Trip> => {
-  console.log('Fetching trip with id:', id);
   return new Promise((resolve, reject) => {
     db.get('SELECT * FROM trip WHERE id = ?', [id], (err, row: Trip | undefined) => {
       if (err) return reject(err);
       if (!row) return reject(new Error('Trip not found'));
       resolve(row);
     });
+  });
+};
+
+export const addTrip = (trip:Omit<Trip, "id"> ): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+        'INSERT INTO trip (name, year, location, image) VALUES (?, ?, ?, ?)',
+        [trip.name, trip.year, trip.location || null, trip.image || null],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+
+          resolve(this.lastID); // 'this' refers to the statement context
+        });
+  });
+};
+
+export const deleteTrip = (tripId:number): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+        'delete from trip where id = ?',
+        [tripId],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+
+          resolve(this.changes); // 'this' refers to the statement context
+        });
+  });
+}
+export const updateTrip = (trip:Trip ): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    const { id, name, year, location} = trip;
+    db.run(
+        'UPDATE trip SET name = ?, year = ?, location = ? where id = ?',
+        [name, year, location, id],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+
+          resolve(this.changes); // 'this' refers to the statement context
+        });
   });
 };

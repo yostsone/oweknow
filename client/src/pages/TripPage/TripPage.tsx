@@ -1,7 +1,7 @@
 import React, {JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Trip } from '@shared/index';
-import TripUsers  from '../../components/TripUsers/TripUsers';
+import { TripUsersBoundary } from '../../components/TripUsers/TripUsersBoundary';
 const errorMessage = 'Failed to fetch trip';
 
 const TripPage:React.FC = () => {
@@ -32,17 +32,16 @@ const TripPage:React.FC = () => {
 
   const { year, name, location } = trip;
   return (
-      <div>
-        <div>
-          <h1>{name}</h1>
-          <p>Year: {year}</p>
-          <p>Location: {location}</p>
-        </div>
-        <div>
-          <h2>Users on this trip:</h2>
-          <TripUsers id={id} />
-        </div>
-      </div>
+      <section>
+        <header>
+          <h2>{ name }</h2>
+          <p>{location}, {year}</p>
+        </header>
+        <section>
+          <h3>Group members:</h3>
+          <TripUsersBoundary tripId={id} />
+        </section>
+      </section>
   );
 };
 

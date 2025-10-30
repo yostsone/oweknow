@@ -4,16 +4,60 @@ import { User } from '@shared/index';
 export const getAllTripUsers = (tripId:string): Promise<User[]> => {
   return new Promise((resolve, reject) => {
     db.all(
-        'SELECT user.id, user.name, user.image FROM user INNER JOIN user_trip ON user.id = user_trip.userId WHERE user_trip.tripId = ?',
+        'SELECT users.id, users.name, users.image FROM users INNER JOIN user_trip ON users.id = user_trip.userId WHERE user_trip.tripId = ?',
         [tripId],
         (err, rows) => {
           if (err) {
-            console.error(err);
-            // handle error
-            return;
+            return reject(err);
           }
           resolve(rows.map(row => row as User));
         }
     );
+  });
+};
+
+export const addUser = (user:Omit<User, "id"> ): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+        'INSERT INTO users (name) VALUES (?)',
+        [user.name],
+        function (err) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(this.lastID); // 'this' refers to the statement context
+    });
+  });
+};
+
+export const updateUser = (user:User ): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+        'UPDATE users SET name = ? where id = ?',
+        [user.name, user.id],
+        function (err) {
+          if (err) {
+            console.log(err);
+            return reject(err);
+          }
+
+          resolve(this.changes); // 'this' refers to the statement context
+        });
+  });
+};
+
+export const deleteUser = (userId:number ): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+        'delete from users where id = ?',
+        [userId],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+
+          resolve(this.changes); // 'this' refers to the statement context
+        });
   });
 };
