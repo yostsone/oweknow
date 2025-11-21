@@ -7,10 +7,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 const ModalAddUser = lazy(() => import('../Modal/AddEditUser/AddEditUser'));
 
 type CurrentUserType = {
-  tripId: string;
+  tripId: number;
   user: User | null;
 }
-type TripUsersProps = { tripId: string };
+type TripUsersProps = { tripId: number };
 const TripUsers = ({ tripId }: TripUsersProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserType>({tripId: tripId, user: null});

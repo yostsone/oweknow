@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { SaveUserInput, UseUserEditorOptions } from '../types/userTypes';
 // this state is necessary to allow separate tripId from the rest of the user fields
 type UserFormState = Omit<SaveUserInput, 'tripId'>;

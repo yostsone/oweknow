@@ -1,22 +1,21 @@
-import React, {JSX, useCallback} from 'react';
 import { TextField, Button, Box, FormControlLabel, Checkbox } from '@mui/material';
 import { useUserEditor } from '../../../hooks/useUserEditor';
 import { useUsers } from '../../../hooks/useUsers';
 import ModalBase from '../Base/Base';
 import { User } from '@shared/index';
 
-type AddUserProps = {
+type AddEditUserProps = {
   isOpen: boolean;
   onClose: (isOpen: boolean) => void;
   currentUserData: {
-    tripId: string;
+    tripId: number;
     user: User | null;
   };
 }
 
-const AddEditUser:React.FC<AddUserProps> = ({
+const AddEditUser = ({
   isOpen, onClose, currentUserData
-}) => {
+}: AddEditUserProps) => {
   const { tripId, user } = currentUserData;
   const {
     save,

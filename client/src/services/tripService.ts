@@ -3,9 +3,10 @@ import { parseJson } from '../utils/serviceUtils';
 import { API_BASE } from '../constants';
 import { SaveTripInput, SaveTripResponse } from '../types/tripTypes';
 
-export const fetchTripById = async (tripId: string) => {
+export const fetchTripById = async (tripId: string, signal: AbortSignal) => {
   const res = await fetch(`${API_BASE}/trip/${tripId}`, {
     method: 'GET',
+    signal,
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) {
@@ -15,8 +16,8 @@ export const fetchTripById = async (tripId: string) => {
   return res.json();
 }
 
-export async function fetchAllTrips(signal?: AbortSignal | null): Promise<Trip[]> {
-  const res = await fetch(`${API_BASE}/trips`, {  method: 'GET' , signal});
+export async function fetchAllTrips(signal: AbortSignal): Promise<Trip[]> {
+  const res = await fetch(`${API_BASE}/trips`, {  method: 'GET', signal });
 
   if (!res.ok) {
     const errorResult = await res.json().catch(() => '');

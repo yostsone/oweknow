@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Stack, IconButton, Typography,
@@ -7,7 +7,7 @@ import { EditNote, Delete as DeleteIcon } from '@mui/icons-material';
 import type { Trip } from '@shared/index';
 import { listItem } from './TripListStyles';
 
-type Props = {
+type TripListItemRowProps = {
   trip: Trip;
   linkTo: string;
   onEdit: (trip: Trip) => void;
@@ -15,17 +15,15 @@ type Props = {
   onPreloadModal?: () => void;
 };
 
-export const TripListItemRow = React.memo(function TripListItemRow({
-  trip, linkTo, onEdit, onDelete, onPreloadModal
-}: Props) {
-  const handleEdit = useCallback((e: React.MouseEvent) => {
+const TripListItemRow= ({ trip, linkTo, onEdit, onDelete, onPreloadModal }: TripListItemRowProps) => {
+  const handleEdit = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     onPreloadModal?.();
     onEdit(trip);
   }, [trip, onPreloadModal]);
 
-  const handleDelete = useCallback((e: React.MouseEvent) => {
+  const handleDelete = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     onDelete(trip.id);
@@ -63,4 +61,6 @@ export const TripListItemRow = React.memo(function TripListItemRow({
       </ListItemButton>
     </ListItem>
   );
-});
+}
+
+export default memo<TripListItemRowProps>(TripListItemRow);

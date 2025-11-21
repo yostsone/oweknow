@@ -1,11 +1,11 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { CircularProgress } from '@mui/material';
 import { ErrorBoundary } from '../common/ErrorBoundary';
 import TripUsers from './TripUsers';
 
-type TripUsersProps = { tripId: string };
+type TripUsersBoundaryProps = { tripId: number };
 
-const TripUsersBoundary = ({ tripId }: TripUsersProps) => {
+const TripUsersBoundary = ({ tripId }: TripUsersBoundaryProps) => {
   return (
     <ErrorBoundary>
       <Suspense fallback={<CircularProgress color="secondary" />}>

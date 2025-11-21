@@ -5,19 +5,19 @@ import {
 import { AddCircle } from '@mui/icons-material';
 import type { Trip } from '@shared/index';
 import { listWrapper } from './TripListStyles';
-import { TripListItemRow } from './TripListItemRow';
+import TripListItemRow from './TripListItemRow';
 
-type Props = {
+type TripListViewProps = {
   trips: Trip[];
   onCreate: () => void;
   onEdit: (trip: Trip) => void;
   onDelete: (tripId: number) => void;
-  onPreloadModal?: () => void;
+  onPreloadModal: () => void;
 };
 
 export function TripListView({
   trips, onCreate, onEdit, onDelete, onPreloadModal
-}: Props) {
+}: TripListViewProps) {
   return (
     <>
       <Stack
@@ -41,7 +41,7 @@ export function TripListView({
 
       {trips.length === 0 ? (
         <Stack alignItems="center" sx={{ py: 4 }}>
-          <Typography sx={{ mb: 2 }}>No trips yet.</Typography>
+          <Typography sx={{ mb: 2 }}>No trips yet</Typography>
         </Stack>
       ) : (
         <List sx={listWrapper}>

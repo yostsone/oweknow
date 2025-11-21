@@ -6,7 +6,7 @@ import { deleteUser, saveUser } from '../services/userService';
 import { useNotify } from '../services/notificationService';
 import { fetchAllTripUsers } from '../services/userService';
 
-export function useUsers(tripId: string) {
+export function useUsers(tripId: number) {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const usersKey: QueryKey = useMemo(() => ['users', tripId], [tripId]);
