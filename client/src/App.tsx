@@ -3,7 +3,7 @@ import { CssBaseline, Container, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import TripPage from './pages/TripPage/TripPage';
+import TripPageBoundary from './pages/TripPage/TripPageBoundary';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { TripListBoundary } from './pages/TripList/TripListBoundary';
@@ -52,7 +52,7 @@ const App = () => {
                 <Router>
                   <Routes>
                     <Route path="/" element={<TripListBoundary />} />
-                    <Route path="trip/:id" element={<TripPage />} />
+                    <Route path="trip/:id" element={<TripPageBoundary />} />
                   </Routes>
                 </Router>
               </NotificationProvider>
