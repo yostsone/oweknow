@@ -24,7 +24,6 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (!current && queue.length > 0) {
-      console.log('process next')
       const next = queue[0];
       setQueue(q => q.slice(1));
       setCurrent(next);
@@ -46,10 +45,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const prevNotifyRef = React.useRef<Notify | null>(null);
   React.useEffect(() => {
     if (prevNotifyRef.current !== notify) {
-      console.log('notify identity changed?', prevNotifyRef.current ? 'YES' : 'initial');
       prevNotifyRef.current = notify;
-    } else {
-      console.log('notify identity unchanged');
     }
   });
 

@@ -39,13 +39,12 @@ async function initializeDb() {
       image TEXT
     );`);
 
-    await execAsync(db, `CREATE TABLE IF NOT EXISTS bills (
+    await execAsync(db, `CREATE TABLE IF NOT EXISTS bill (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       total REAL NOT NULL,
+      title TEXT NOT NULL,
       image TEXT,
-      payerId INTEGER NOT NULL,
       tripId INTEGER NOT NULL,
-      FOREIGN KEY (payerId) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (tripId) REFERENCES trip(id) ON DELETE CASCADE
     );`);
 
@@ -63,7 +62,7 @@ async function initializeDb() {
       userId INTEGER NOT NULL,
       billId INTEGER NOT NULL,
       FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
-      FOREIGN KEY (billId) REFERENCES bills(id) ON DELETE CASCADE
+      FOREIGN KEY (billId) REFERENCES bill(id) ON DELETE CASCADE
     );`);
 
     await execAsync(db, 'COMMIT;');

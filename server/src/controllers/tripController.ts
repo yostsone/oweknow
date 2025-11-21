@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Trip } from '@shared/index';
 import { addTrip, deleteTrip, getAllTrips, getTripById, updateTrip } from '../models/tripModel';
+import { prepareParsedId } from '../utils/dataValidation';
 
 export const getTrips = async (req: Request, res: Response) => {
   try {
@@ -13,12 +14,13 @@ export const getTrips = async (req: Request, res: Response) => {
 
 export const getTrip = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
-    if (!id) {
-      res.status(400).json({ error: 'Trip ID is required' });
-      return;
+    const { id = ''} = req.params
+    const parsedId = prepareParsedId(id);
+
+    if (!parsedId) {
+      throw new Error('Trip ID is required');
     }
-    const trip: Trip = await getTripById(id);
+    const trip: Trip = await getTripById(parsedId);
     res.json(trip);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
@@ -26,9 +28,9 @@ export const getTrip = async (req: Request, res: Response) => {
 };
 
 export const editTrip = async (req: Request, res: Response) => {
-  const { id, name, year, location = null, image = null } = req.body;
-
   try {
+    if (!req.body) throw new Error('Internal Error');
+    const { id, name, year, location = null, image = null } = req.body;
     await updateTrip({ id, name, year, location, image });
     res.status(201).json({ id });
   } catch (err) {
@@ -37,34 +39,33 @@ export const editTrip = async (req: Request, res: Response) => {
 }
 
 export const removeTrip = async (req: Request, res: Response) => {
-  const idParam = req.params.id ?? '';
-
-  if (!/^\d+$/.test(idParam)) {
-    return res.status(400).json({ error: 'Invalid id' });
-  }
-
-  const id = parseInt(idParam, 10);
-
   try {
-    await deleteTrip(id);
-    res.status(201).json({ id });
+    const { id = '' } = req.params
+    const parsedId = prepareParsedId(id);
+
+    if (!parsedId) {
+      throw new Error('Trip ID is required');
+    }
+    await deleteTrip(parsedId);
+    res.status(201).json({ parsedId });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete trip.' });
   }
 }
 
 export const createTrip = async (req: Request, res: Response) => {
-  const { name, year, location = null, image = null } = req.body;
-
-  if (!name || !year) {
-    return res.status(400).json({ error: 'Required info is missing!' });
-  }
-
   try {
+    if (!req.body) throw new Error('Internal Error');
+    const { name, year, location = null, image = null } = req.body;
+
+    if (!name || !year) {
+      throw new Error('Required info is missing!');
+    }
+
     const tripId = await addTrip({ name, year, location, image });
     res.status(201).json({ id: tripId });
 
   } catch (err) {
-    res.status(500).json({ error: 'Failed to insert user.' });
+    res.status(500).json({ error: 'Failed to insert trip.' });
   }
 }

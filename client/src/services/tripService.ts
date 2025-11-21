@@ -9,21 +9,18 @@ export const fetchTripById = async (tripId: string) => {
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || `HTTP ${res.status}`);
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
   }
   return res.json();
 }
 
-export async function fetchAllTrips(signal?: AbortSignal): Promise<Trip[]> {
-  const res = await fetch(`${API_BASE}/trips`, {
-    signal,
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
+export async function fetchAllTrips(signal?: AbortSignal | null): Promise<Trip[]> {
+  const res = await fetch(`${API_BASE}/trips`, {  method: 'GET' , signal});
+
   if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    throw new Error(text || `HTTP ${res.status}`);
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
   }
   return res.json();
 }
@@ -34,6 +31,12 @@ export async function createTrip(input:Omit<SaveTripInput, 'id'>): Promise<numbe
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
   });
+
+  if (!res.ok) {
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
+  }
+
   const data = await parseJson<SaveTripResponse>(res);
   return data.id;
 }
@@ -50,7 +53,8 @@ export async function updateTrip(input: SaveTripInput): Promise<number> {
 }
 
 export async function saveTrip(input: SaveTripInput): Promise<number> {
-  const { id, ...rest } = input;
+  const { id = null, ...rest } = input;
+
   return id ? updateTrip(input) : createTrip(rest);
 }
 
@@ -59,8 +63,9 @@ export async function deleteTrip(id: number): Promise<void> {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
   });
+
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || 'Failed to delete trip');
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
   }
 }
