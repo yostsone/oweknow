@@ -1,15 +1,16 @@
 import React, { lazy, Suspense, useCallback, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import type { Trip } from '@shared/index';
-import { useTrip } from '../../hooks/useTrip';
+import { useTripMutation } from '../../hooks/trip/useTripMutation';
 import { TripListView } from './TripListView';
+import { useTripsQuery } from '../../hooks/trip/useTripsQuery';
 
 const ModalAddEditTrip = lazy(() => import('../Modal/AddEditTrip'));
 const preloadModal = () => { void import('../Modal/AddEditTrip'); };
 
 export function TripListContainer() {
-  const { data: tripsRaw, remove, isLoading, isError } = useTrip(); // adjust to your hook
-  const trips: Trip[] = tripsRaw ?? [];
+  const { data: trips } = useTripsQuery();
+  const { remove } = useTripMutation();
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);

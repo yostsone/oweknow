@@ -5,6 +5,7 @@ import type { SaveUserInput } from '../types/userTypes';
 import { deleteUser, saveUser } from '../services/userService';
 import { useNotify } from '../services/notificationService';
 import { fetchAllTripUsers } from '../services/userService';
+import {User} from "@shared/index";
 
 export function useUsers(tripId: number) {
   const queryClient = useQueryClient();
@@ -46,8 +47,10 @@ export function useUsers(tripId: number) {
   const save = (input: SaveUserInput) => saveMutation.mutate(input);
   const remove = (id: number) => deleteMutation.mutate(id);
 
+  const data: User[] = tripUsersQuery.data as User[];
+
   return {
-    ...tripUsersQuery,
+    data,
     save,
     remove,
     isSaving: saveMutation.isPending,

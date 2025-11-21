@@ -1,24 +1,13 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMutation, useQueryClient, type DefaultError } from '@tanstack/react-query';
-import {fetchAllTrips, saveTrip, deleteTrip } from '../services/tripService';
-import { TRIPS_KEY } from '../constants';
-import { useNotify } from '../services/notificationService';
-import type { SaveTripInput } from '../types/tripTypes';
+import { saveTrip, deleteTrip } from '../../services/tripService';
+import { TRIPS_KEY } from '../../constants';
+import { useNotify } from '../../services/notificationService';
+import type { SaveTripInput } from '../../types/tripTypes';
 
 
-export function useTrip() {
+export function useTripMutation() {
   const queryClient = useQueryClient();
   const notify = useNotify();
-
-  //get all trips
-  const tripsQuery = useSuspenseQuery({
-    queryKey: TRIPS_KEY,
-    queryFn: ({ signal }) => fetchAllTrips(signal),
-    staleTime: 30_000,
-    gcTime: 5 * 60_000,
-    retry: 2,
-  });
-
 
   const saveMutation = useMutation<number, DefaultError, SaveTripInput>({
     mutationFn: saveTrip,
@@ -46,7 +35,6 @@ export function useTrip() {
   });
 
   return {
-    ...tripsQuery,
     remove: deleteTripMutation.mutate,
     save: saveMutation.mutate,
     isSaving: saveMutation.isPending,

@@ -11,8 +11,8 @@ export async function fetchAllTripUsers(tripId: number, signal: AbortSignal): Pr
   });
 
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || `HTTP ${res.status}`);
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
   }
   return res.json();
 }
@@ -49,7 +49,7 @@ export async function deleteUser(userId: number): Promise<void> {
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || 'Failed to delete user');
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || 'Failed to delete user');
   }
 }

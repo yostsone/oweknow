@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { TextField, Button, Box } from '@mui/material';
-import { useTripForm } from '../../../hooks/useTripForm';
-import { useTrip } from '../../../hooks/useTrip';
+import { useTripForm } from '../../../hooks/trip/useTripForm';
+import { useTripMutation } from '../../../hooks/trip/useTripMutation';
 import ModalBase from '../Base/Base';
 import { Trip } from '@shared/index';
 
@@ -18,7 +18,7 @@ const AddEditTrip = ({ isOpen, onClose, currentTripData }: AddEditTripProps) => 
     reset
   } = useTripForm({ trip: currentTripData });
 
-  const { save, isSaving } = useTrip()
+  const { save, isSaving } = useTripMutation()
 
   const handleSubmit = useCallback(() => {
     const payload = {

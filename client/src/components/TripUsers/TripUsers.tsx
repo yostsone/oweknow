@@ -14,9 +14,7 @@ type TripUsersProps = { tripId: number };
 const TripUsers = ({ tripId }: TripUsersProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserType>({tripId: tripId, user: null});
-  const { data: usersRaw } = useUsers(tripId);
-  const users: User[] = usersRaw ?? [];
-
+  const { data: users } = useUsers(tripId);
   const handleUserModalData = (isPlaceholder:boolean, user: User | null) => {
     setIsOpen(true);
     if (isPlaceholder) {

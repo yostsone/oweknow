@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { SaveTripInput, UseTripEditorOptions} from '../types/tripTypes';
+import type { SaveTripInput, UseTripEditorOptions} from '../../types/tripTypes';
 
 type FormShape = Omit<SaveTripInput, 'id'>;
 type EditableKey = keyof FormShape;
