@@ -10,7 +10,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.error) {
       return (
-          <Alert severity="error">
+          <Alert severity="error" sx={{mt:5}}>
             <AlertTitle>Failed to load</AlertTitle>
             {this.state.error.message}
           </Alert>

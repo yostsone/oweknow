@@ -5,7 +5,7 @@ import TripUsers from './TripUsers';
 
 type TripUsersProps = { tripId: string };
 
-export const TripUsersBoundary = ({ tripId }: TripUsersProps) => {
+const TripUsersBoundary = ({ tripId }: TripUsersProps) => {
   return (
     <ErrorBoundary>
       <Suspense fallback={<CircularProgress color="secondary" />}>
@@ -14,3 +14,5 @@ export const TripUsersBoundary = ({ tripId }: TripUsersProps) => {
     </ErrorBoundary>
   );
 };
+
+export default TripUsersBoundary;

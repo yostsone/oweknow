@@ -10,9 +10,8 @@ type AddEditTripProps = {
   onClose: (isOpen: boolean) => void;
   currentTripData: Trip | null
 }
-const AddEditTrip:React.FC<AddEditTripProps> = ({
-  isOpen, onClose, currentTripData
-}) => {
+
+const AddEditTrip = ({ isOpen, onClose, currentTripData }: AddEditTripProps) => {
   const {
     form,
     setField,

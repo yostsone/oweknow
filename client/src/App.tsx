@@ -1,4 +1,3 @@
-import React, { JSX } from 'react';
 import { NotificationProvider } from 'src/services/notificationService';
 import { CssBaseline, Container, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -36,7 +35,7 @@ const theme = createTheme({
   },
 });
 
-const App:React.FC = () => {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{

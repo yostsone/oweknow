@@ -1,10 +1,11 @@
 import React, {JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Trip } from '@shared/index';
-import { TripUsersBoundary } from '../../components/TripUsers/TripUsersBoundary';
+import TripUsersBoundary from '../../components/TripUsers/TripUsersBoundary';
+import TripBillsBoundary from "../../components/TripBills/TripBillsBoundary";
 const errorMessage = 'Failed to fetch trip';
 
-const TripPage:React.FC = () => {
+const TripPage = () => {
   const { id } = useParams();
   const [trip, setTrip] = useState<Omit<Trip, 'id'> | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,8 +39,12 @@ const TripPage:React.FC = () => {
           <p>{location}, {year}</p>
         </header>
         <section>
-          <h3>Group members:</h3>
+          <h3>Group members</h3>
           <TripUsersBoundary tripId={id} />
+        </section>
+        <section>
+          <h3>Group bills</h3>
+          <TripBillsBoundary tripId={id}/>
         </section>
       </section>
   );
