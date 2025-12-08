@@ -49,6 +49,12 @@ export async function updateTrip(input: SaveTripInput): Promise<number> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
   });
+
+  if (!res.ok) {
+    const errorResult = await res.json().catch(() => '');
+    throw new Error(errorResult.error || `HTTP ${res.status}`);
+  }
+
   const data = await parseJson<SaveTripResponse>(res);
   return data.id;
 }

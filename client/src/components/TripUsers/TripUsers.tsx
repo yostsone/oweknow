@@ -1,6 +1,5 @@
 import React, { Suspense, useState, lazy } from 'react';
 import { User } from '@shared/index';
-import { useUsers } from '../../hooks/useUsers';
 import {Avatar, Chip, CircularProgress, Stack} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -10,11 +9,10 @@ type CurrentUserType = {
   tripId: number;
   user: User | null;
 }
-type TripUsersProps = { tripId: number };
-const TripUsers = ({ tripId }: TripUsersProps) => {
+type TripUsersProps = { tripId: number, users: User[] };
+const TripUsers = ({ tripId, users }: TripUsersProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserType>({tripId: tripId, user: null});
-  const { data: users } = useUsers(tripId);
   const handleUserModalData = (isPlaceholder:boolean, user: User | null) => {
     setIsOpen(true);
     if (isPlaceholder) {

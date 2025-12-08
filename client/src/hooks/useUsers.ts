@@ -5,7 +5,7 @@ import type { SaveUserInput } from '../types/userTypes';
 import { deleteUser, saveUser } from '../services/userService';
 import { useNotify } from '../services/notificationService';
 import { fetchAllTripUsers } from '../services/userService';
-import {User} from "@shared/index";
+import { User } from '@shared/index';
 
 export function useUsers(tripId: number) {
   const queryClient = useQueryClient();

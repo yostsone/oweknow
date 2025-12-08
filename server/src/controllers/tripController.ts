@@ -31,6 +31,11 @@ export const editTrip = async (req: Request, res: Response) => {
   try {
     if (!req.body) throw new Error('Internal Error');
     const { id, name, year, location = null, image = null } = req.body;
+
+    if (!id || !name || !year) {
+      throw new Error('Required info is missing!');
+    }
+
     await updateTrip({ id, name, year, location, image });
     res.status(201).json({ id });
   } catch (err) {
