@@ -44,8 +44,10 @@ async function initializeDb() {
       total REAL NOT NULL,
       title TEXT NOT NULL,
       image TEXT,
+      payerId INTEGER NOT NULL,
       tripId INTEGER NOT NULL,
       FOREIGN KEY (tripId) REFERENCES trip(id) ON DELETE CASCADE
+      FOREIGN KEY (payerId) REFERENCES users(id) ON DELETE CASCADE
     );`);
 
     await execAsync(db, `CREATE TABLE IF NOT EXISTS user_trip (
