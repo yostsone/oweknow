@@ -1,4 +1,4 @@
-import { Trip, Bill, User } from '@shared/index';
+import type { TripDB, BillDB, UserDB, UserBillDB } from '@shared/index';
 
 export type SaveTripInput = {
   id?: number | null;
@@ -11,7 +11,7 @@ export type SaveTripInput = {
 export type SaveTripResponse = { id: number };
 
 export type UseTripEditorOptions = {
-  trip: Trip | null;
+  trip: TripDB | null;
 };
 
 export type SaveBillInput = {
@@ -21,6 +21,7 @@ export type SaveBillInput = {
   title: string;
   total: number | null;
   users?: UserBillShare[];
+  splits: BillSplit;
 };
 
 export type UserBillShare = {
@@ -28,7 +29,12 @@ export type UserBillShare = {
   amount: number;
 }
 export type UseBillEditorOptions = {
-  bill: Bill | null;
-  users: User[] | []
+  bill: BillWithSplit| null;
+  users: UserDB[] | []
 }
 export type SaveBillResponse = { id: number };
+
+export type SplitMode = 'even' | 'custom';
+export type BillSplit = { mode: SplitMode; splits: UserBillDB[] | [] };
+
+export type BillWithSplit = BillDB & { splits: BillSplit };

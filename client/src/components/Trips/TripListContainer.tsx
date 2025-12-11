@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useCallback, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import type { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { useTripMutation } from '../../hooks/trip/useTripMutation';
 import { TripListView } from './TripListView';
 import { useTripsQuery } from '../../hooks/trip/useTripsQuery';
@@ -13,14 +13,14 @@ export function TripListContainer() {
   const { remove } = useTripMutation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
+  const [currentTrip, setCurrentTrip] = useState<TripDB | null>(null);
 
   const openCreate = useCallback(() => {
     setCurrentTrip(null);
     setIsOpen(true);
   }, []);
 
-  const openEdit = useCallback((trip: Trip) => {
+  const openEdit = useCallback((trip: TripDB) => {
     setCurrentTrip(trip);
     setIsOpen(true);
   }, []);

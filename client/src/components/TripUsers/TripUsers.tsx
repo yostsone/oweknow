@@ -1,5 +1,5 @@
 import React, { Suspense, useState, lazy } from 'react';
-import { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 import {Avatar, Chip, CircularProgress, Stack} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -7,13 +7,13 @@ const ModalAddUser = lazy(() => import('../Modal/AddEditUser/AddEditUser'));
 
 type CurrentUserType = {
   tripId: number;
-  user: User | null;
+  user: UserDB | null;
 }
-type TripUsersProps = { tripId: number, users: User[] };
+type TripUsersProps = { tripId: number, users: UserDB[] };
 const TripUsers = ({ tripId, users }: TripUsersProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserType>({tripId: tripId, user: null});
-  const handleUserModalData = (isPlaceholder:boolean, user: User | null) => {
+  const handleUserModalData = (isPlaceholder:boolean, user: UserDB | null) => {
     setIsOpen(true);
     if (isPlaceholder) {
       setCurrentUserData({tripId: tripId, user: null});

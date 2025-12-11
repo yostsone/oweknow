@@ -1,9 +1,9 @@
 import type { SaveUserInput, SaveUserResponse } from '../types/userTypes';
-import type { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 import { parseJson } from '../utils/serviceUtils';
 import { API_BASE } from '../constants';
 
-export async function fetchAllTripUsers(tripId: number, signal: AbortSignal): Promise<User[]> {
+export async function fetchAllTripUsers(tripId: number, signal: AbortSignal): Promise<UserDB[]> {
   const res = await fetch(`${API_BASE}/trip/${tripId}/users`, {
     signal,
     method: 'GET',

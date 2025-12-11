@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import type { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { fetchTripById } from '../../services/tripService';
 
 /**
@@ -23,6 +23,6 @@ export function useTripQuery() {
   });
 
   return query as {
-    data: Trip;
+    data: TripDB;
   };
 }

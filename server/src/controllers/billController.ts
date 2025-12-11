@@ -1,18 +1,17 @@
 import { Request, Response } from 'express';
-import { Bill } from '@shared/index';
-import { deleteBill, getAllTripBills, addBill, updateBill  } from '../models/billModel';
+import type { BillDB, UserBillDB } from '@shared/index';
+import { deleteBill, getAllTripBills, addBill, updateBill, getTripBillsWithSplits } from '../models/billModel';
 import { prepareParsedId } from '../utils/dataValidation';
-
+type BillWithSplits = BillDB & { splits: UserBillDB[] };
 export const getTripBills = async (req: Request, res: Response) => {
   try {
     const { id = '' } = req.params;
     const parsedId = prepareParsedId(id);
-
     if (!parsedId) {
       throw new Error('Trip ID is required');
     }
 
-    const billList: Bill[] = await getAllTripBills(parsedId);
+    const billList: BillWithSplits[] =  await getTripBillsWithSplits(parsedId);
     res.json(billList);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });

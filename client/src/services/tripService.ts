@@ -1,4 +1,4 @@
-import { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { parseJson } from '../utils/serviceUtils';
 import { API_BASE } from '../constants';
 import { SaveTripInput, SaveTripResponse } from '../types/tripTypes';
@@ -16,7 +16,7 @@ export const fetchTripById = async (tripId: string, signal: AbortSignal) => {
   return res.json();
 }
 
-export async function fetchAllTrips(signal: AbortSignal): Promise<Trip[]> {
+export async function fetchAllTrips(signal: AbortSignal): Promise<TripDB[]> {
   const res = await fetch(`${API_BASE}/trips`, {  method: 'GET', signal });
 
   if (!res.ok) {

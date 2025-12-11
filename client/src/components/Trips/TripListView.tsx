@@ -3,14 +3,14 @@ import {
   List, Stack, Typography, IconButton,
 } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import type { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { listWrapper } from './TripListStyles';
 import TripListItemRow from './TripListItemRow';
 
 type TripListViewProps = {
-  trips: Trip[];
+  trips: TripDB[];
   onCreate: () => void;
-  onEdit: (trip: Trip) => void;
+  onEdit: (trip: TripDB) => void;
   onDelete: (tripId: number) => void;
   onPreloadModal: () => void;
 };

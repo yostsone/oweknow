@@ -1,8 +1,8 @@
 import db from '../db/sqlite';
-import { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 import { isValidId } from '../utils/dataValidation';
 
-export const getAllTripUsers = (tripId:number): Promise<User[]> => {
+export const getAllTripUsers = (tripId:number): Promise<UserDB[]> => {
   if (!isValidId(tripId)) {
     return Promise.reject(new Error('Invalid ID'));
   }
@@ -13,13 +13,13 @@ export const getAllTripUsers = (tripId:number): Promise<User[]> => {
         [tripId],
         (err, rows) => {
           if (err) return reject(err);
-          resolve(rows.map(row => row as User));
+          resolve(rows.map(row => row as UserDB));
         }
     );
   });
 };
 
-export const addUser = (user:Omit<User, 'id'> ): Promise<number> => {
+export const addUser = (user:Omit<UserDB, 'id'> ): Promise<number> => {
   return new Promise((resolve, reject) => {
     db.run(
         'INSERT INTO users (name) VALUES (?)',
@@ -32,7 +32,7 @@ export const addUser = (user:Omit<User, 'id'> ): Promise<number> => {
   });
 };
 
-export const updateUser = (user:User): Promise<number> => {
+export const updateUser = (user:UserDB): Promise<number> => {
   return new Promise((resolve, reject) => {
     db.run(
         'UPDATE users SET name = ? where id = ?',

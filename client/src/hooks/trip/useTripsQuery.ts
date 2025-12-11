@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import type { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { fetchAllTrips } from '../../services/tripService';
 import { TRIPS_KEY } from '../../constants'
 
@@ -13,6 +13,6 @@ export function useTripsQuery() {
   });
 
   return tripsQuery as {
-    data: Trip[];
+    data: TripDB[];
   };
 }

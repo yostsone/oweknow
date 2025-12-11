@@ -1,9 +1,8 @@
-import type { Bill } from '@shared/index';
 import { API_BASE } from '../constants';
-import { SaveBillInput, SaveBillResponse } from '../types/tripTypes';
+import type { SaveBillInput, SaveBillResponse, BillWithSplit } from '../types/tripTypes';
 import { parseJson } from '../utils/serviceUtils';
 
-export async function fetchAllTripBills(tripId: number, signal: AbortSignal): Promise<Bill[]> {
+export async function fetchAllTripBills(tripId: number, signal: AbortSignal): Promise<BillWithSplit[]> {
   const res = await fetch(`${API_BASE}/trip/${tripId}/bills`, { method: 'GET', signal });
 
   if (!res.ok) {

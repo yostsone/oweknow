@@ -1,16 +1,17 @@
 import React, { lazy, useState, Suspense } from 'react';
 import { useBills } from '../../hooks/bill/useBills';
 import { Box, CircularProgress} from '@mui/material';
-import { Bill, User } from '@shared/index';
+import type { UserDB } from '@shared/index';
+import type { BillWithSplit } from '../../types/tripTypes';
 import TripBillsListView from './TripBillsListView';
 const ModalAddEditBill = lazy(() => import('../Modal/AddEditBill'));
 
-const TripBillsListContainer = ({ tripId, users }: { tripId: number, users: User[] }) => {
+const TripBillsListContainer = ({ tripId, users }: { tripId: number, users: UserDB[] }) => {
   const { data: billsList } = useBills(tripId);
-  const [currentBill, setCurrentBill] = useState<Bill | null>(null);
+  const [currentBill, setCurrentBill] = useState<BillWithSplit | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleBillClick = (bill: Bill) => {
+  const handleBillClick = (bill: BillWithSplit) => {
     setCurrentBill(bill);
     setIsOpen(true);
   }

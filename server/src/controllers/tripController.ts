@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { addTrip, deleteTrip, getAllTrips, getTripById, updateTrip } from '../models/tripModel';
 import { prepareParsedId } from '../utils/dataValidation';
 
 export const getTrips = async (req: Request, res: Response) => {
   try {
-    const trips: Trip[] = await getAllTrips();
+    const trips: TripDB[] = await getAllTrips();
     res.json(trips);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
@@ -20,7 +20,7 @@ export const getTrip = async (req: Request, res: Response) => {
     if (!parsedId) {
       throw new Error('Trip ID is required');
     }
-    const trip: Trip = await getTripById(parsedId);
+    const trip: TripDB = await getTripById(parsedId);
     res.json(trip);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });

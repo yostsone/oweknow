@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 import { CircularProgress } from '@mui/material';
 import { ErrorBoundary } from '../common/ErrorBoundary';
-import { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 import TripUsers from './TripUsers';
 
-type TripUsersBoundaryProps = { tripId: number, users: User[] };
+type TripUsersBoundaryProps = { tripId: number, users: UserDB[] };
 
 const TripUsersBoundary = ({ tripId, users }: TripUsersBoundaryProps) => {
   return (

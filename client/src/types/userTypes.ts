@@ -1,4 +1,4 @@
-import type { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 
 export type SaveUserInput = {
   tripId: number;
@@ -11,5 +11,5 @@ export type SaveUserResponse = { id: number };
 
 export type UseUserEditorOptions = {
   tripId: number;
-  user: User | null;
+  user: UserDB | null;
 };

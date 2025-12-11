@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '@shared/index';
+import type { UserDB } from '@shared/index';
 import { getAllTripUsers, addUser, updateUser, deleteUser } from '../models/userModel';
 import { addUserToTrip, removeUserFromTrip } from '../models/userTripModel';
 import { prepareParsedId } from '../utils/dataValidation';
@@ -14,7 +14,7 @@ export const getTripUsers = async (req: Request, res: Response) => {
       throw new Error('Trip ID is required');
     }
 
-    const userList: User[] = await getAllTripUsers(parsedId);
+    const userList: UserDB[] = await getAllTripUsers(parsedId);
     res.json(userList);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
@@ -69,7 +69,7 @@ export const removeUser = async (req: Request, res: Response) => {
   const parsedId = prepareParsedId(id);
 
   if (!parsedId) {
-    throw new Error('Trip ID is required');
+    throw new Error('User ID is required');
   }
 
   try {

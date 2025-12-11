@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { fetchAllTripBills } from '../../services/billService';
 import { BILLS_KEY } from '../../constants';
-import { Bill } from '@shared/index';
-
+import type { BillWithSplit } from '../../types/tripTypes';
 
 export function useBills(tripId: number) {
   //get all bills for trip
@@ -15,6 +14,6 @@ export function useBills(tripId: number) {
   });
 
   return billsQuery as {
-    data: Bill[];
+    data: BillWithSplit[];
   };
 }

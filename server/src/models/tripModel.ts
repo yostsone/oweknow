@@ -1,23 +1,23 @@
 import db from '../db/sqlite';
-import { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { isValidId } from '../utils/dataValidation';
 
-export const getAllTrips = (): Promise<Trip[]> => {
+export const getAllTrips = (): Promise<TripDB[]> => {
   return new Promise((resolve, reject) => {
-    db.all('SELECT * FROM trip', [], (err, rows: Trip[]) => {
+    db.all('SELECT * FROM trip', [], (err, rows: TripDB[]) => {
       if (err) return reject(err);
-      resolve(rows.map(row => row as Trip));
+      resolve(rows.map(row => row as TripDB));
     });
   });
 };
 
-export const getTripById = (id: number): Promise<Trip> => {
+export const getTripById = (id: number): Promise<TripDB> => {
   if (!isValidId(id)) {
     return Promise.reject(new Error('Invalid ID'));
   }
 
   return new Promise((resolve, reject) => {
-    db.get('SELECT * FROM trip WHERE id = ?', [id], (err, row: Trip | undefined) => {
+    db.get('SELECT * FROM trip WHERE id = ?', [id], (err, row: TripDB | undefined) => {
       if (err) return reject(err);
       if (!row) return reject(new Error('Trip not found'));
       resolve(row);
@@ -25,7 +25,7 @@ export const getTripById = (id: number): Promise<Trip> => {
   });
 };
 
-export const addTrip = (trip:Omit<Trip, 'id'> ): Promise<number> => {
+export const addTrip = (trip:Omit<TripDB, 'id'> ): Promise<number> => {
   return new Promise((resolve, reject) => {
     db.run(
         'INSERT INTO trip (name, year, location, image) VALUES (?, ?, ?, ?)',
@@ -58,7 +58,7 @@ export const deleteTrip = (tripId:number): Promise<number> => {
         });
   });
 }
-export const updateTrip = (trip:Trip): Promise<number> => {
+export const updateTrip = (trip:TripDB): Promise<number> => {
   return new Promise((resolve, reject) => {
     const { id, name, year, location} = trip;
     db.run(

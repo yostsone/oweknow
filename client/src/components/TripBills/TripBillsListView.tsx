@@ -1,11 +1,11 @@
 import { List, ListItem, ListItemText} from '@mui/material';
-import { Bill } from '@shared/index';
+import type { BillWithSplit } from '../../types/tripTypes';
 import BillAddPlaceholder from '../BillAddPlaceholder/BillAddPlaceholder';
 const preloadModal = () => { void import('../Modal/AddEditBill'); };
 
 type TripBillsListViewProps = {
-  billsList: Bill[];
-  handleBillClick: (bill: Bill) => void;
+  billsList: BillWithSplit[];
+  handleBillClick: (bill: BillWithSplit) => void;
   handleNewBillClick: () => void;
 }
 const TripBillsListView = ({

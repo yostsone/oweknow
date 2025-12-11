@@ -4,13 +4,13 @@ import {
   ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Stack, IconButton, Typography,
 } from '@mui/material';
 import { EditNote, Delete as DeleteIcon } from '@mui/icons-material';
-import type { Trip } from '@shared/index';
+import type { TripDB } from '@shared/index';
 import { listItem } from './TripListStyles';
 
 type TripListItemRowProps = {
-  trip: Trip;
+  trip: TripDB;
   linkTo: string;
-  onEdit: (trip: Trip) => void;
+  onEdit: (trip: TripDB) => void;
   onDelete: (id: number) => void;
   onPreloadModal?: () => void;
 };
