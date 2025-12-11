@@ -1,15 +1,15 @@
 import type { UserDB } from '@shared/index';
 
-export type SaveUserInput = {
+export type User = UserDB;
+
+export type SaveUserInput = Omit<UserDB, 'id'> & {
+  id?: number | null;
   tripId: number;
-  name: string;
-  assigned: boolean;
-  userId?: number | null;
 };
 
 export type SaveUserResponse = { id: number };
 
-export type UseUserEditorOptions = {
+export type UseUserFormOptions = {
   tripId: number;
   user: UserDB | null;
 };

@@ -1,8 +1,8 @@
 import { TextField, Button, Box, FormControlLabel, Checkbox } from '@mui/material';
-import { useUserEditor } from '../../../hooks/useUserEditor';
-import { useUsers } from '../../../hooks/useUsers';
+import { useUserForm } from '../../../hooks/user/useUserForm';
+import { useUsersMutation } from '../../../hooks/user/useUserMutation';
 import ModalBase from '../Base/Base';
-import { User } from '@shared/index';
+import type  { User } from '@app-types/userTypes';
 
 type AddEditUserProps = {
   isOpen: boolean;
@@ -22,15 +22,15 @@ const AddEditUser = ({
     remove,
     isSaving,
     isDeleting
-  } = useUsers(tripId);
+  } = useUsersMutation(tripId);
 
   const {
     form,
     setField
-  } = useUserEditor({ tripId, user });
+  } = useUserForm({ tripId, user });
 
   const title = user ? 'Edit user' : 'Add new user';
-  const userId = user?.id ? form.userId : null;
+  const userId = user?.id ? form.id : null;
 
 
   const onDeleteClick = () => {
@@ -39,14 +39,17 @@ const AddEditUser = ({
     onClose(false);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!e.currentTarget.reportValidity()) return;
+
     const payload = {
       name: form.name.trim(),
       assigned: form.assigned,
     };
 
     if (user) {
-      save({userId: user.id, tripId, ...payload });
+      save({id: user.id, tripId, ...payload });
     } else {
       save({...payload, tripId });
     }
@@ -57,8 +60,8 @@ const AddEditUser = ({
     <ModalBase isOpen={isOpen} onClose={() => onClose(false)} title={title}>
       <Box
         component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        onSubmit={(e) =>
-        { e.preventDefault(); if (!e.currentTarget.reportValidity()) return; handleSubmit();}}>
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
+      >
         <TextField
           label="Name"
           name="name"

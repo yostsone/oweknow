@@ -1,7 +1,7 @@
 import TripUsersBoundary from '../../components/TripUsers/TripUsersBoundary';
 import TripBillsBoundary from '../../components/TripBills/TripBillsBoundary';
 import { useTripQuery } from '../../hooks/trip/useTripQuery';
-import { useUsers } from '../../hooks/useUsers';
+import { useUsers } from '../../hooks/user/useUsers';
 
 const TripPageContainer = () => {
   const { data: { id, year, name, location } } = useTripQuery();
